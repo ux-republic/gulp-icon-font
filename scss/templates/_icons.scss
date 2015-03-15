@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "<%= fontName %>";
+    font-weight: normal;
+    font-style: normal;
+    src: url('<%= fontPath %><%= fontName %>.eot');
+    src: url('<%= fontPath %><%= fontName %>.woff') format('woff'),
+         url('<%= fontPath %><%= fontName %>.ttf') format('truetype'),
+         url('<%= fontPath %><%= fontName %>.eot?#iefix') format('embedded-opentype'),
+         url('<%= fontPath %><%= fontName %>.svg#<%= fontName %>') format('svg');
+}
+
+.icon[class^="icon-"],
+.icon[class*=" icon-"] {
+    display: inline-block;
+    font-family: '<%= fontName %>';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$icons: (
+    <%= glyphs.map(function(glyph) {
+        return glyph.name + ': "' + '\\' + glyph.codepoint.toString(16).toUpperCase() + '"'
+    }).join(',\n  ') %>
+);
+
+@each $name, $icon in $icons {
+    .<%= className %>-#{$name}:before {
+        @extend %icon-base-styles;
+        content: $icon;
+    }
+}
