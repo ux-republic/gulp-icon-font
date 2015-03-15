@@ -25,14 +25,14 @@ gulp.task('iconfont', function () {
         .pipe(gulp.dest('fonts/custom')); // Destination des fichiers de police
 });
 
-// sass task
+// Tâche "sass"
 gulp.task('sass', function () {
     gulp.src('scss/**/*.scss') // Localisation des fichiers SASS
         .pipe(sass()) // Exécution de SASS pour compilation
         .pipe(gulp.dest('css')); // Destination des fichiers CSS
 });
 
-// default task
+// Tâche pa défaut
 gulp.task('default', ['sass'], function () {
     gulp.watch('scss/**/*.scss', ['sass']); // Génération des fichiers CSS à chaque modification des fichiers SASS
 });
