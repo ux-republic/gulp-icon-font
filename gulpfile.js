@@ -32,7 +32,7 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('css')); // Destination des fichiers CSS
 });
 
-// Tâche pa défaut
+// Tâche par défaut
 gulp.task('default', ['sass'], function () {
     gulp.watch('scss/**/*.scss', ['sass']); // Génération des fichiers CSS à chaque modification des fichiers SASS
 });
