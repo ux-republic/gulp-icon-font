@@ -29,7 +29,6 @@ $icons: (
 
 @each $name, $icon in $icons {
     .icon-#{$name}:before {
-        @extend %icon-base-styles;
         content: $icon;
     }
 }

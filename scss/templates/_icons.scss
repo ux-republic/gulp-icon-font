@@ -9,8 +9,8 @@
          url('<%= fontPath %><%= fontName %>.svg#<%= fontName %>') format('svg');
 }
 
-.icon[class^="icon-"],
-.icon[class*=" icon-"] {
+.<%= className %>[class^="<%= className %>-"],
+.<%= className %>[class*=" <%= className %>-"] {
     display: inline-block;
     font-family: '<%= fontName %>';
     font-style: normal;
@@ -30,7 +30,6 @@ $icons: (
 
 @each $name, $icon in $icons {
     .<%= className %>-#{$name}:before {
-        @extend %icon-base-styles;
         content: $icon;
     }
 }
