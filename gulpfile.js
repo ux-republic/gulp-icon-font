@@ -1,38 +1,99 @@
-// Appel des librairies
-var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    iconfont = require('gulp-iconfont'),
-    consolidate = require('gulp-consolidate');
+'use strict';
 
-// Tâche "iconfont"
+
+// -----------------------------------------------------------------------------
+// Dépendances
+// -----------------------------------------------------------------------------
+
+var gulp = require('gulp')
+  , sass = require('gulp-sass')
+  , iconfont = require('gulp-iconfont')
+  , consolidate = require('gulp-consolidate');
+
+
+// -----------------------------------------------------------------------------
+// Iconfont
+// -----------------------------------------------------------------------------
+
 gulp.task('iconfont', function () {
-    gulp.src('icons/**/*.svg') // Localisation des fichiers SVG
-        .pipe(iconfont({ // Appel du module générant la police d'icône
-            fontName: 'custom', // Nom de la police
-            centerHorizontally: true, // Calcule des dimensions du glyphe et centrage
-            normalize: true // Normalisation des icônes par mise à l'échelle par rapport à la taille de l'icône la plus grande
+
+  // Localisation des fichiers SVG
+  gulp.src('icons/**/*.svg')
+
+    // Appel du module générant la police d'icône
+    .pipe(iconfont({
+
+      // Nom de la police
+      fontName: 'custom'
+
+      // Calcule des dimensions du glyphe et centrage
+    , centerHorizontally: true
+
+    // Normalisation des icônes par mise à l'échelle
+    // par rapport à la taille de l'icône la plus grande
+    , normalize: true
+
+    // Assigne un unicode à chaque icône pour les utiliser dans du CSS
+    , appendUnicode: true
+    }))
+
+    // Appel du module générant le CSS
+    .on('glyphs', function (glyphs) {
+
+      // Localisation du template SASS
+      gulp.src('scss/templates/_icons.scss')
+
+        // Appel du moteur de template
+        .pipe(consolidate('lodash', {
+
+          // Code points présent dans la propriété CSS "content"
+          glyphs: glyphs
+
+          // Nom de la police
+        , fontName: 'custom'
+
+        // Chemin des fichiers de police
+        , fontPath: '../fonts/custom/'
+
+        // Nom de la classe principale, commune à tous les icônes
+        , className: 'icon'
         }))
-        .on('codepoints', function (codepoints) { // Appel du module générant le CSS
-            gulp.src('scss/templates/_icons.scss') // Localisation du template SASS
-                .pipe(consolidate('lodash', { // Appel du moteur de template
-                    glyphs: codepoints, // Code points présent dans la propriété CSS "content"
-                    fontName: 'custom', // Nom de la police
-                    fontPath: '../fonts/custom/', // Chemin des fichiers de police
-                    className: 'icon' // Nom de la classe principale, commune à tous les icônes
-                }))
-                .pipe(gulp.dest('scss')); // Destination du fichier SASS qui sera ensuite générer en CSS
-        })
-        .pipe(gulp.dest('fonts/custom')); // Destination des fichiers de police
+
+        // Destination du fichier SASS qui sera ensuite générer en CSS
+        .pipe(gulp.dest('scss'));
+    })
+
+    // Destination des fichiers de police
+    .pipe(gulp.dest('fonts/custom'));
 });
 
-// Tâche "sass"
+
+// -----------------------------------------------------------------------------
+// Compilation SASS
+// -----------------------------------------------------------------------------
+
 gulp.task('sass', function () {
-    gulp.src('scss/**/*.scss') // Localisation des fichiers SASS
-        .pipe(sass()) // Exécution de SASS pour compilation
-        .pipe(gulp.dest('css')); // Destination des fichiers CSS
+
+  // Localisation des fichiers SASS
+  gulp.src('scss/**/*.scss')
+
+    // Exécution de SASS pour compilation
+    .pipe(sass({
+      indentWidth: 4
+    , outputStyle: 'expanded'
+    }))
+
+    // Destination des fichiers CSS
+    .pipe(gulp.dest('css'));
 });
 
-// Tâche par défaut
+
+// -----------------------------------------------------------------------------
+// Default
+// -----------------------------------------------------------------------------
+
 gulp.task('default', ['sass'], function () {
-    gulp.watch('scss/**/*.scss', ['sass']); // Génération des fichiers CSS à chaque modification des fichiers SASS
+
+  // Génération des fichiers CSS à chaque modification des fichiers SASS
+  gulp.watch('scss/**/*.scss', ['sass']);
 });

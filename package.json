@@ -1,17 +1,17 @@
 {
   "name": "iconfont",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Générer une police d'icône (iconfont) à partir de fichiers SVG.",
-  "author": "Nicolas GILLOT",
+  "author": "UX-Republic",
   "repository": {
     "type": "git",
     "url": "https://github.com/ux-republic/gulp-icon-font.git"
   },
   "devDependencies": {
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
     "gulp-consolidate": "^0.1.2",
-    "gulp-iconfont": "^1.0.0",
-    "gulp-sass": "^1.3.3",
-    "lodash": "^3.5.0"
+    "gulp-iconfont": "^3.0.2",
+    "gulp-sass": "^2.0.2",
+    "lodash": "^3.9.3"
   }
 }
